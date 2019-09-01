@@ -43,8 +43,8 @@ buildscript {
             androidx_lifecycle_viewmodel : "androidx.lifecycle:lifecycle-viewmodel:${versions.androidx_lifecycle}",
             androidx_lifecycle_extensions : "androidx.lifecycle:lifecycle-extensions:${versions.androidx_lifecycle}",
             androidx_core_ktx : "androidx.core:core-ktx:${versions.androidx_core_ktx}",
-            androidx_navigation_fragment : "androidx.navigation:navigation-fragment:${versions.androidx_nav}",
-            androidx_navigation_ui : "androidx.navigation:navigation-ui:${versions.androidx_nav}",
+            androidx_navigation_fragment : "androidx.navigation:navigation-fragment-ktx:${versions.androidx_nav}",
+            androidx_navigation_ui : "androidx.navigation:navigation-ui-ktx:${versions.androidx_nav}",
             androidx_constraintlayout : "androidx.constraintlayout:constraintlayout:${versions.androidx_constraintlayout}",
 
             // Image Handling
