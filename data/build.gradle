@@ -1,0 +1,53 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Support
+    implementation libs.androidx_lifecycle_viewmodel
+    implementation libs.androidx_lifecycle_extensions
+    implementation libs.androidx_core_ktx
+
+    // Coroutines
+    implementation libs.coroutines_core
+    implementation libs.coroutines_android
+
+    // Networking
+    implementation libs.retrofit2_converter_moshi
+
+    // Log
+    implementation libs.timber
+
+    // Koin
+    testImplementation(libs.koin_test) { exclude group: 'org.mockito' }
+
+    // Test
+    testImplementation libs.androidx_test_ext_junit
+    testImplementation libs.robolectric
+    testImplementation libs.android_arch_core_testing
+    testImplementation libs.kotlin_test_junit
+
+    // Mock
+    testImplementation libs.mockk
+}

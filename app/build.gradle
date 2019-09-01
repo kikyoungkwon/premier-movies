@@ -1,0 +1,101 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.kikyoung.movie"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode 1
+        versionName "0.0.9"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            versionNameSuffix " Debug"
+            applicationIdSuffix ".debug"
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        String sharedTestDir = 'src/testShared/java'
+        test {
+            java.srcDir sharedTestDir
+        }
+        androidTest {
+            java.srcDir sharedTestDir
+        }
+    }
+    // For Robolectric
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            all {
+                maxHeapSize = "1024m"
+            }
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(":data")
+
+    // Support
+    implementation libs.androidx_navigation_fragment
+    implementation libs.androidx_navigation_ui
+    implementation libs.androidx_constraintlayout
+
+    // Image Handling
+    implementation libs.glide
+    annotationProcessor libs.glide_comiler
+
+    // Networking
+    implementation libs.retrofit2_converter_moshi
+    implementation libs.okhttp3_logging_interceptor
+
+    // Log
+    implementation libs.timber
+
+    // Coroutines
+    implementation libs.coroutines_core
+    implementation libs.coroutines_android
+
+    // Koin
+    implementation libs.koin_androidx_viewmodel
+    testImplementation(libs.koin_test) { exclude group: 'org.mockito' }
+    androidTestImplementation(libs.koin_test) { exclude group: 'org.mockito' }
+
+    // Memory leak detection
+    debugImplementation libs.leakcanary_android
+
+    // Test
+    testImplementation libs.androidx_test_rules
+    androidTestImplementation libs.androidx_test_rules
+    testImplementation libs.androidx_espresso_core
+    androidTestImplementation libs.androidx_espresso_core
+    testImplementation libs.androidx_test_ext_junit
+    testImplementation libs.robolectric
+    testImplementation libs.android_arch_core_testing
+    debugImplementation(libs.androidx_fragment_testing) {
+        exclude group: 'androidx.test'
+    }
+    testImplementation libs.kotlin_test_junit
+    androidTestImplementation libs.mockwebserver
+    androidTestCompile libs.okhttp3_idling_resource
+
+    // Mock
+    testImplementation libs.mockk
+}

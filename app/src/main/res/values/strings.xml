@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Premier Movies</string>
+
+    <string name="common_error_server">Sorry something went wrong. Please try again later.</string>
+    <string name="common_error_network">Sorry you seem to be offline. Please check your settings and try again</string>
+
+    <string name="movie_list_title">Premier</string>
+</resources>
