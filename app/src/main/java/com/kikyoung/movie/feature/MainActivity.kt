@@ -1,6 +1,7 @@
 package com.kikyoung.movie.feature
 
 import android.os.Bundle
+import androidx.navigation.findNavController
 import com.kikyoung.movie.R
 import com.kikyoung.movie.base.BaseActivity
 import com.kikyoung.movie.feature.list.MovieViewModel
@@ -17,6 +18,12 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        movieViewModel.showScreenLiveData().observeChanges(this) { screen ->
+            when(screen) {
+                MainScreen.DETAILS -> findNavController(R.id.navHostFragment).navigate(R.id.action_movieList_to_movieDetails)
+            }
+        }
 
         movieViewModel.loadingLiveData().observeChanges(this) { visible ->
             // NOTE vs Data Binding

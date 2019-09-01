@@ -26,11 +26,15 @@ class MovieListFragment : BaseFragment<MovieViewModel>(
             adapter = movieListAdapter
         }
 
+        movieListAdapter.setItemClickListener(object: MovieListAdapter.ItemClickListener {
+            override fun onItemClick(movie: Movie) {
+                viewModel.setSelectedMovie(movie)
+            }
+        })
+
         viewModel.movieListLiveData().observeChanges(this) { movies ->
             showMovieList(movies)
         }
-
-        viewModel.getMovieList()
     }
 
     private fun setActionBar() {

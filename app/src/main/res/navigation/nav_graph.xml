@@ -8,5 +8,14 @@
     <fragment
         android:id="@+id/movieList"
         android:name="com.kikyoung.movie.feature.list.MovieListFragment"
-        android:label="movieList"/>
+        android:label="movieList">
+        <action
+            android:id="@+id/action_movieList_to_movieDetails"
+            app:destination="@id/movieDetails" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/movieDetails"
+        android:name="com.kikyoung.movie.feature.list.MovieDetailsFragment"
+        android:label="movieDetails"/>
 </navigation>

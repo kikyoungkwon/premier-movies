@@ -5,4 +5,5 @@
     <string name="common_error_network">Sorry you seem to be offline. Please check your settings and try again</string>
 
     <string name="movie_list_title">Premier</string>
+    <string name="movie_details_title">Details</string>
 </resources>

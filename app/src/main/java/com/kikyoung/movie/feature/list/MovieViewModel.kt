@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kikyoung.movie.base.BaseViewModel
 import com.kikyoung.movie.data.repository.MovieRepository
+import com.kikyoung.movie.feature.MainScreen
 import com.kikyoung.movie.feature.list.model.Movie
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -13,8 +14,13 @@ class MovieViewModel(
     uiDispatcher: CoroutineDispatcher
 ) : BaseViewModel(uiDispatcher) {
 
+    private val showScreenLiveData = MutableLiveData<MainScreen>()
     private val loadingLiveData = MutableLiveData<Boolean>()
     private val movieListLiveData = MutableLiveData<List<Movie>>()
+
+    init {
+        getMovieList()
+    }
 
     fun getMovieList() {
         launch {
@@ -29,6 +35,13 @@ class MovieViewModel(
         }
     }
 
+    fun setSelectedMovie(movie: Movie) {
+        movieRepository.setSelectedMovie(movie)
+        showScreenLiveData.postValue(MainScreen.DETAILS)
+    }
+
+    fun showScreenLiveData(): LiveData<MainScreen> = showScreenLiveData
     fun loadingLiveData(): LiveData<Boolean> = loadingLiveData
     fun movieListLiveData(): LiveData<List<Movie>> = movieListLiveData
+    fun selectedMovieLiveData(): LiveData<Movie> = movieRepository.selectedMovieLiveData()
 }

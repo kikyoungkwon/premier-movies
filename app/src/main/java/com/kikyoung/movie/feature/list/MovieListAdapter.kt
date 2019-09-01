@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock
 class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
 
     private val movieList = mutableListOf<Movie>()
-
+    private var itemClickListener: ItemClickListener? = null
     private val lock = ReentrantLock()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -40,6 +40,9 @@ class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
                 Glide.with(this)
                     .load(movie.posterUrl)
                     .into(posterImageView)
+                setOnClickListener {
+                    itemClickListener?.onItemClick(movie)
+                }
             }
     }
 
@@ -52,5 +55,13 @@ class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
         } finally {
             lock.unlock()
         }
+    }
+
+    fun setItemClickListener(listener: ItemClickListener) {
+        itemClickListener = listener
+    }
+
+    interface ItemClickListener {
+        fun onItemClick(movie: Movie)
     }
 }

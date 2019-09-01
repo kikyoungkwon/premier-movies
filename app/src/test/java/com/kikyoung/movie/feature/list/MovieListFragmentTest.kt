@@ -12,7 +12,6 @@ import com.kikyoung.movie.feature.list.model.Movie
 import com.kikyoung.movie.test.util.withRecyclerView
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,11 +31,6 @@ class MovieListFragmentTest : BaseKoinTest() {
         every { movieViewModel.movieListLiveData() } returns movieListLiveData
         declare { viewModel(override = true) { movieViewModel } }
         launchFragmentInContainer<MovieListFragment>()
-    }
-
-    @Test
-    fun `when it starts, it should get the movie list`() {
-        verify { movieViewModel.getMovieList() }
     }
 
     @Test
