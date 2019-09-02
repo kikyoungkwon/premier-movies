@@ -14,7 +14,7 @@ class MovieViewModel(
     uiDispatcher: CoroutineDispatcher
 ) : BaseViewModel(uiDispatcher) {
 
-    private val showScreenLiveData = MutableLiveData<MainScreen>()
+    private val showScreenLiveData = MutableLiveData<Pair<MainScreen, Any?>>()
     private val loadingLiveData = MutableLiveData<Boolean>()
     private val movieListLiveData = MutableLiveData<List<Movie>>()
 
@@ -35,12 +35,15 @@ class MovieViewModel(
         }
     }
 
-    fun setSelectedMovie(movie: Movie) {
-        movieRepository.setSelectedMovie(movie)
-        showScreenLiveData.postValue(MainScreen.DETAILS)
+    fun getMovie(id: String) {
+        movieRepository.setSelectedMovie(id)
     }
 
-    fun showScreenLiveData(): LiveData<MainScreen> = showScreenLiveData
+    fun setSelectedMovie(movie: Movie) {
+        showScreenLiveData.postValue(Pair(MainScreen.DETAILS, movie))
+    }
+
+    fun showScreenLiveData(): LiveData<Pair<MainScreen, Any?>> = showScreenLiveData
     fun loadingLiveData(): LiveData<Boolean> = loadingLiveData
     fun movieListLiveData(): LiveData<List<Movie>> = movieListLiveData
     fun selectedMovieLiveData(): LiveData<Movie> = movieRepository.selectedMovieLiveData()

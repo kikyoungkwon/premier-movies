@@ -17,5 +17,9 @@
     <fragment
         android:id="@+id/movieDetails"
         android:name="com.kikyoung.movie.feature.list.MovieDetailsFragment"
-        android:label="movieDetails"/>
+        android:label="movieDetails">
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="http://www.kikyoung.com/movies/{id}" />
+    </fragment>
 </navigation>

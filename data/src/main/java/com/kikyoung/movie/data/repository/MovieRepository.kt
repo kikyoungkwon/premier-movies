@@ -20,13 +20,20 @@ class MovieRepository(
 
     private val selectedMovieLiveData = MutableLiveData<Movie>()
 
+    private var movieList: List<Movie>? = null
+
     suspend fun topRatedMovies(): List<Movie> = withContext(ioDispatcher) {
-        movieMapper.toMovieList(movieService.topRated(API_KEY))
+        movieList = movieMapper.toMovieList(movieService.topRated(API_KEY))
         // TODO Save the list in local storage so that can start with later
+        movieList!!
     }
 
-    fun setSelectedMovie(movie: Movie) {
-        selectedMovieLiveData.postValue(movie)
+    fun setSelectedMovie(id: String) {
+        val movie = movieList?.find { movie -> movie.id == id}
+        if (movie != null) selectedMovieLiveData.postValue(movie)
+        else {
+            // TODO Get it from backend
+        }
     }
 
     fun selectedMovieLiveData() = selectedMovieLiveData

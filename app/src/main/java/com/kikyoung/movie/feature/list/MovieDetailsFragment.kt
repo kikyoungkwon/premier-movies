@@ -16,9 +16,15 @@ class MovieDetailsFragment : BaseFragment<MovieViewModel>(
     R.layout.fragment_movie_details
 ) {
 
+    companion object {
+        const val ARG_ID = "id"
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setActionBar()
+
+        viewModel.getMovie(arguments?.get(ARG_ID) as String)
 
         viewModel.selectedMovieLiveData().observeChanges(this) { movie ->
             showMovieDetails(movie)
