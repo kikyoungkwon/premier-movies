@@ -46,8 +46,7 @@ class TestMockWebServer {
             override fun dispatch(request: RecordedRequest): MockResponse {
                 val path = request.requestUrl?.encodedPath.toString()
                 return dispatchRoutes.asSequence().firstOrNull {
-                    // TODO Use Regex
-                    path.startsWith(it.key)
+                    Regex(it.key).matches(path)
                 }?.value ?: throw IllegalStateException("$path was not enqueued")
             }
         }
@@ -56,7 +55,7 @@ class TestMockWebServer {
     fun getBaseUrl(): String? = baseUrl
 
     fun setTopRatedMoviesResponse(filePath: String) {
-        enqueueSuccess("/3/movie/top_rated", testDataLoader.loadString("topRated/$filePath"))
+        enqueueSuccess("/[0-9]{1}/movie/top_rated.*", testDataLoader.loadString("topRated/$filePath"))
     }
 
     private fun enqueueSuccess(urlPath: String, body: String) {
