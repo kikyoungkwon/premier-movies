@@ -16,11 +16,11 @@ class MovieViewModel(
     private val loadingLiveData = MutableLiveData<Boolean>()
     private val movieListLiveData = MutableLiveData<List<Movie>>()
 
-    fun getMovieList() {
+    fun getMovieList(searchText: String? = null) {
         launch {
             try {
                 loadingLiveData.postValue(true)
-                movieListLiveData.postValue(movieRepository.topRatedMovies())
+                movieListLiveData.postValue(movieRepository.topRatedMovies(searchText))
             } catch (e: Exception) {
                 handleRepositoryError(e)
             } finally {

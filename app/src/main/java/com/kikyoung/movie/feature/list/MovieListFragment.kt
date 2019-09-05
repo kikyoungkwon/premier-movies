@@ -26,6 +26,11 @@ class MovieListFragment : BaseFragment<MovieViewModel>(
             adapter = movieListAdapter
         }
 
+        searchButton.setOnClickListener {
+            // TODO Check the search text.
+            viewModel.getMovieList(searchEditText.text?.toString())
+        }
+
         viewModel.movieListLiveData().observeChanges(this) { movies ->
             showMovieList(movies)
         }
