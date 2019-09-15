@@ -12,7 +12,6 @@ class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
         setKoin()
     }
@@ -24,6 +23,7 @@ class BaseApplication : Application() {
             modules(
                 listOf(
                     coroutinesModule,
+                    storageModule,
                     networkModule,
                     servicesModule,
                     mappersModule,

@@ -20,7 +20,7 @@ class MovieServiceTest {
 
     @Before
     fun before() {
-        movieService = MovieService(Moshi.Builder().build(), apiService)
+        movieService = MovieService("apiKey", Moshi.Builder().build(), apiService)
     }
 
     @Test
@@ -30,7 +30,7 @@ class MovieServiceTest {
         every { response.isSuccessful } returns true
         every { response.body() } returns responseBody
         coEvery { apiService.topRated(any()) } returns response
-        assertEquals(movieService.topRated("api_key"), responseBody)
+        assertEquals(movieService.topRated(), responseBody)
     }
 
     @Test(expected = ServerException::class)
@@ -43,6 +43,6 @@ class MovieServiceTest {
                 response.errorBody().toString()
             } returns "{\"status_code\":7,\"status_message\":\"Invalid API key: You must be granted a valid key.\"}"
             coEvery { apiService.topRated(any()) } returns response
-            movieService.topRated("api_key")
+            movieService.topRated()
         }
 }

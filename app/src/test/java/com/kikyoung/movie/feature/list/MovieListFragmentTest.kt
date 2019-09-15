@@ -12,7 +12,6 @@ import com.kikyoung.movie.feature.list.model.Movie
 import com.kikyoung.movie.test.util.withRecyclerView
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,11 +34,6 @@ class MovieListFragmentTest : BaseKoinTest() {
     }
 
     @Test
-    fun `when it starts, it should get the movie list`() {
-        verify { movieViewModel.getMovieList() }
-    }
-
-    @Test
     fun `when movie list is provided, it should show them`() {
         val movieList = movieList()
         movieListLiveData.postValue(movieList)
@@ -51,15 +45,15 @@ class MovieListFragmentTest : BaseKoinTest() {
     }
 
     private fun movieList() = listOf(
-        Movie("title0", "overview0", "http://localhost/post_path0.jpg"),
-        Movie("title1", "overview1", "http://localhost/post_path1.jpg"),
-        Movie("title2", "overview2", "http://localhost/post_path2.jpg")
+        Movie(0, "title0", "overview0", "http://localhost/post_path0.jpg"),
+        Movie(1, "title1", "overview1", "http://localhost/post_path1.jpg"),
+        Movie(2, "title2", "overview2", "http://localhost/post_path2.jpg")
     )
 
     private fun testRecyclerViewItem(itemIndex: Int, movie: Movie) {
-        onView(withRecyclerView(R.id.movieListRecyclerView).atPositionOnView(itemIndex, R.id.titleTextView))
+        onView(withRecyclerView(R.id.movieListRecyclerView).atPositionOnView(itemIndex, R.id.itemTitleTextView))
             .check(matches(withText(movie.title)))
-        onView(withRecyclerView(R.id.movieListRecyclerView).atPositionOnView(itemIndex, R.id.overviewTextView))
+        onView(withRecyclerView(R.id.movieListRecyclerView).atPositionOnView(itemIndex, R.id.itemOverviewTextView))
             .check(matches(withText(movie.overview)))
     }
 }

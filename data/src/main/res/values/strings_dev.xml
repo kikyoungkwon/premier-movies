@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+    <string name="api_key">e4f9e61f6ffd66639d33d3dde7e3159b</string>
     <string name="base_url">https://api.themoviedb.org/</string>
     <string name="image_base_url">https://image.tmdb.org/t/p/w500</string>
 </resources>

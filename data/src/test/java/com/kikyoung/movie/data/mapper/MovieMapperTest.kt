@@ -24,6 +24,7 @@ class MovieMapperTest {
     }
 
     private fun assertMovie(movieResponse: MovieResponse, movie: Movie) {
+        assertEquals(movieResponse.id, movie.id)
         assertEquals(movieResponse.title, movie.title)
         assertEquals(movieResponse.overview, movie.overview)
         assertEquals("${IMAGE_BASE_URL}${movieResponse.posterFilePath}", movie.posterUrl)
@@ -31,9 +32,9 @@ class MovieMapperTest {
 
     private fun moviesResponse() = TopRatedResponse(
         listOf(
-            MovieResponse("title0", "overview0", "porterFilePath0.jpg"),
-            MovieResponse("title1", "overview1", "porterFilePath1.jpg"),
-            MovieResponse("title2", "overview2", "porterFilePath2.jpg")
+            MovieResponse(0, "title0", "overview0", "porterFilePath0.jpg"),
+            MovieResponse(1, "title1", "overview1", "porterFilePath1.jpg"),
+            MovieResponse(2, "title2", "overview2", "porterFilePath2.jpg")
         )
     )
 }
