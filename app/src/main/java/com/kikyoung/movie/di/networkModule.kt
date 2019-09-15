@@ -13,6 +13,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
+const val NAME_API_KEY = "apiKey"
 const val NAME_BASE_URL = "baseUrl"
 const val NAME_IMAGE_BASE_URL = "imageBaseUrl"
 
@@ -22,6 +23,7 @@ val networkModule = module {
     single { retrofit(get(named(NAME_BASE_URL)), get()) }
     single { okHttpClient(get()) }
     single { httpLoggingInterceptor() }
+    single(named(NAME_API_KEY)) { apiKey(androidContext()) }
     single(named(NAME_BASE_URL)) { baseUrl(androidContext()) }
     single(named(NAME_IMAGE_BASE_URL)) { imageBaseUrl(androidContext()) }
 }
@@ -45,6 +47,8 @@ private fun httpLoggingInterceptor() =
         level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
         else HttpLoggingInterceptor.Level.NONE
     }
+
+private fun apiKey(context: Context) = context.getString(R.string.api_key)
 
 private fun baseUrl(context: Context) = context.getString(R.string.base_url)
 

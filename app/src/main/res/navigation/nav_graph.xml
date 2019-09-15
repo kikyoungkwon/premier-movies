@@ -11,11 +11,19 @@
         android:label="movieList">
         <action
             android:id="@+id/action_movieList_to_movieDetails"
-            app:destination="@id/movieDetails" />
+            app:destination="@id/movieDetails">
+            <argument
+                android:name="id"
+                app:argType="integer"/>
+        </action>
     </fragment>
 
     <fragment
         android:id="@+id/movieDetails"
-        android:name="com.kikyoung.movie.feature.list.MovieDetailsFragment"
-        android:label="movieDetails"/>
+        android:name="com.kikyoung.movie.feature.detail.MovieDetailsFragment"
+        android:label="movieDetails">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

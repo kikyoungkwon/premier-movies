@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import com.kikyoung.movie.R
 import com.kikyoung.movie.base.BaseActivity
+import com.kikyoung.movie.feature.list.MovieListFragmentDirections
 import com.kikyoung.movie.feature.list.MovieViewModel
 import com.kikyoung.movie.util.extension.hide
 import com.kikyoung.movie.util.extension.observeChanges
@@ -19,10 +20,11 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        movieViewModel.showScreenLiveData().observeChanges(this) { screen ->
-            when(screen) {
-                MainScreen.DETAILS -> findNavController(R.id.navHostFragment).navigate(R.id.action_movieList_to_movieDetails)
-            }
+        movieViewModel.showScreenLiveData().observeChanges(this) {
+            if (it.first == MainScreen.DETAILS)
+                findNavController(R.id.navHostFragment).navigate(
+                    MovieListFragmentDirections.actionMovieListToMovieDetails(it.second as Int)
+                )
         }
 
         movieViewModel.loadingLiveData().observeChanges(this) { visible ->

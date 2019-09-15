@@ -35,11 +35,12 @@ class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
 
         fun bind(movie: Movie) =
             view.apply {
-                titleTextView.text = movie.title
-                overviewTextView.text = movie.overview
+                itemTitleTextView.text = movie.title
+                itemOverviewTextView.text = movie.overview
                 Glide.with(this)
                     .load(movie.posterUrl)
-                    .into(posterImageView)
+                    .placeholder(R.drawable.image_placeholder)
+                    .into(itemPosterImageView)
                 setOnClickListener {
                     itemClickListener?.onItemClick(movie)
                 }

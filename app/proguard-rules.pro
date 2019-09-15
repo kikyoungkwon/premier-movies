@@ -20,9 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.kikyoung.movie.data.model.** { *; }
--keep class com.kikyoung.movie.data.exception.** { *; }
-
 # Keep the screen name for analytics
 -keepnames class * extends androidx.fragment.app.Fragment
 -keepnames class * extends androidx.appcompat.app.AppCompatActivity

@@ -1,33 +1,47 @@
 package com.kikyoung.movie.data.repository
 
-import androidx.lifecycle.MutableLiveData
+import androidx.annotation.VisibleForTesting
+import com.kikyoung.movie.data.LocalStorage
 import com.kikyoung.movie.data.mapper.MovieMapper
 import com.kikyoung.movie.data.service.MovieService
 import com.kikyoung.movie.feature.list.model.Movie
+import com.squareup.moshi.Types.newParameterizedType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
 class MovieRepository(
+    private val localStorage: LocalStorage,
     private val movieMapper: MovieMapper,
     private val movieService: MovieService,
     private val ioDispatcher: CoroutineDispatcher
 ) {
 
     companion object {
-        // TODO Get it from secure place
-        private const val API_KEY = "e4f9e61f6ffd66639d33d3dde7e3159b"
+        @VisibleForTesting
+        const val KEY_MOVIE_LIST = "movie_list"
     }
 
-    private val selectedMovieLiveData = MutableLiveData<Movie>()
+    // NOTE Use Coroutines Flow for cold stream.
+    suspend fun getMovieList(): List<Movie> = withContext(ioDispatcher) {
+        var movieList = getMovieListLocally()
+        if (movieList == null) {
+            movieList = movieMapper.toMovieList(movieService.topRated())
+            putMovieListLocally(movieList)
+        }
+        movieList
+    }!!
 
-    suspend fun topRatedMovies(): List<Movie> = withContext(ioDispatcher) {
-        movieMapper.toMovieList(movieService.topRated(API_KEY))
-        // TODO Save the list in local storage so that can start with later
+    suspend fun getMovie(id: Int): Movie? = withContext(ioDispatcher) {
+        getMovieList().find { it.id == id }
     }
 
-    fun setSelectedMovie(movie: Movie) {
-        selectedMovieLiveData.postValue(movie)
-    }
+    private fun getMovieListLocally(): List<Movie>? =
+        localStorage.get(KEY_MOVIE_LIST, newParameterizedType(List::class.java, Movie::class.java))
 
-    fun selectedMovieLiveData() = selectedMovieLiveData
+    private fun putMovieListLocally(movieList: List<Movie>) =
+        localStorage.put(
+            KEY_MOVIE_LIST,
+            newParameterizedType(List::class.java, Movie::class.java),
+            movieList
+        )
 }

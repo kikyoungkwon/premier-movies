@@ -5,10 +5,10 @@ import com.kikyoung.movie.data.model.TopRatedResponse
 import com.squareup.moshi.Moshi
 
 class MovieService(
+    private val apiKey: String,
     moshi: Moshi,
     private val api: Api
 ) : BaseService(moshi) {
 
-    suspend fun topRated(apiKey: String): TopRatedResponse =
-        execute { api.topRated(apiKey) }
+    suspend fun topRated(): TopRatedResponse = execute { api.topRated(apiKey) }
 }

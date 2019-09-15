@@ -8,6 +8,7 @@ class MovieMapper(private val imageBaseUrl: String) {
     fun toMovieList(topRatedResponse: TopRatedResponse): List<Movie> =
         topRatedResponse.movies.map { movieResponse ->
             Movie(
+                movieResponse.id,
                 movieResponse.title,
                 movieResponse.overview,
                 "$imageBaseUrl${movieResponse.posterFilePath}"

@@ -28,13 +28,15 @@ class MovieListFragment : BaseFragment<MovieViewModel>(
 
         movieListAdapter.setItemClickListener(object: MovieListAdapter.ItemClickListener {
             override fun onItemClick(movie: Movie) {
-                viewModel.setSelectedMovie(movie)
+                viewModel.showMovie(movie)
             }
         })
 
         viewModel.movieListLiveData().observeChanges(this) { movies ->
             showMovieList(movies)
         }
+
+        viewModel.getMovieList()
     }
 
     private fun setActionBar() {
@@ -54,5 +56,11 @@ class MovieListFragment : BaseFragment<MovieViewModel>(
     private fun showMovieList(movies: List<Movie>) {
         movieListAdapter.updateMovieList(movies)
         movieListRecyclerView.show()
+    }
+
+    override fun onDestroyView() {
+        // For preventing memory leak on adapter
+        movieListRecyclerView.adapter = null
+        super.onDestroyView()
     }
 }

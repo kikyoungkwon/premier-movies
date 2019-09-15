@@ -1,28 +1,36 @@
-package com.kikyoung.movie.feature.list
+package com.kikyoung.movie.feature.detail
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.kikyoung.movie.R
 import com.kikyoung.movie.base.BaseFragment
+import com.kikyoung.movie.feature.list.MovieViewModel
 import com.kikyoung.movie.feature.list.model.Movie
 import com.kikyoung.movie.util.extension.observeChanges
 import kotlinx.android.synthetic.main.fragment_movie_details.*
-import kotlinx.android.synthetic.main.item_movie.*
+import kotlinx.android.synthetic.main.view_movie_details.*
 
 class MovieDetailsFragment : BaseFragment<MovieViewModel>(
     MovieViewModel::class,
     R.layout.fragment_movie_details
 ) {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    private val args: MovieDetailsFragmentArgs by navArgs()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setActionBar()
 
-        viewModel.selectedMovieLiveData().observeChanges(this) { movie ->
-            showMovieDetails(movie)
+        viewModel.movieLiveData().observeChanges(this) { movie ->
+            if (movie == null) {
+                // TODO If movie is null, show not found error message.
+            } else showMovieDetails(movie)
         }
+
+        viewModel.getMovie(args.id)
     }
 
     private fun setActionBar() {
@@ -51,10 +59,11 @@ class MovieDetailsFragment : BaseFragment<MovieViewModel>(
     }
 
     private fun showMovieDetails(movie: Movie) {
-        titleTextView.text = movie.title
-        overviewTextView.text = movie.overview
+        movieTitleTextView.text = movie.title
+        movieOverviewTextView.text = movie.overview
         Glide.with(this)
             .load(movie.posterUrl)
-            .into(posterImageView)
+            .placeholder(R.drawable.image_placeholder)
+            .into(moviePosterImageView)
     }
 }

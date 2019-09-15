@@ -6,6 +6,7 @@ import com.kikyoung.movie.base.BaseViewModel
 import com.kikyoung.movie.data.repository.MovieRepository
 import com.kikyoung.movie.feature.MainScreen
 import com.kikyoung.movie.feature.list.model.Movie
+import com.kikyoung.movie.util.SingleLiveEvent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
@@ -14,19 +15,16 @@ class MovieViewModel(
     uiDispatcher: CoroutineDispatcher
 ) : BaseViewModel(uiDispatcher) {
 
-    private val showScreenLiveData = MutableLiveData<MainScreen>()
+    private val showScreenLiveData = SingleLiveEvent<Pair<MainScreen, Any?>>()
     private val loadingLiveData = MutableLiveData<Boolean>()
     private val movieListLiveData = MutableLiveData<List<Movie>>()
-
-    init {
-        getMovieList()
-    }
+    private val movieLiveData = MutableLiveData<Movie?>()
 
     fun getMovieList() {
         launch {
             try {
                 loadingLiveData.postValue(true)
-                movieListLiveData.postValue(movieRepository.topRatedMovies())
+                movieListLiveData.postValue(movieRepository.getMovieList())
             } catch (e: Exception) {
                 handleRepositoryError(e)
             } finally {
@@ -35,13 +33,25 @@ class MovieViewModel(
         }
     }
 
-    fun setSelectedMovie(movie: Movie) {
-        movieRepository.setSelectedMovie(movie)
-        showScreenLiveData.postValue(MainScreen.DETAILS)
+    fun showMovie(movie: Movie) {
+        showScreenLiveData.postValue(Pair(MainScreen.DETAILS, movie.id))
     }
 
-    fun showScreenLiveData(): LiveData<MainScreen> = showScreenLiveData
+    fun getMovie(id: Int) {
+        launch {
+            try {
+                loadingLiveData.postValue(true)
+                movieLiveData.postValue(movieRepository.getMovie(id))
+            } catch (e: Exception) {
+                handleRepositoryError(e)
+            } finally {
+                loadingLiveData.postValue(false)
+            }
+        }
+    }
+
+    fun showScreenLiveData(): LiveData<Pair<MainScreen, Any?>> = showScreenLiveData
     fun loadingLiveData(): LiveData<Boolean> = loadingLiveData
     fun movieListLiveData(): LiveData<List<Movie>> = movieListLiveData
-    fun selectedMovieLiveData(): LiveData<Movie> = movieRepository.selectedMovieLiveData()
+    fun movieLiveData(): LiveData<Movie?> = movieLiveData
 }

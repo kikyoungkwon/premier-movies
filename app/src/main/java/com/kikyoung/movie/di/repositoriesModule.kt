@@ -5,5 +5,5 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val repositoriesModule = module {
-    single { MovieRepository(get(), get(), get(named(NAME_IO))) }
+    single { MovieRepository(get(), get(), get(), get(named(NAME_IO))) }
 }
