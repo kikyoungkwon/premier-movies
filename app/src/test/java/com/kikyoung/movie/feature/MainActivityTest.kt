@@ -8,9 +8,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import com.kikyoung.movie.R
 import com.kikyoung.movie.base.BaseKoinTest
+import com.kikyoung.movie.data.model.Movie
 import com.kikyoung.movie.feature.list.MovieViewModel
-import com.kikyoung.movie.feature.list.model.Movie
 import com.kikyoung.movie.util.SingleLiveEvent
+import com.kikyoung.movie.util.TestUtil
 import io.mockk.every
 import io.mockk.mockk
 import org.hamcrest.CoreMatchers.not
@@ -57,7 +58,7 @@ class MainActivityTest : BaseKoinTest() {
 
     @Test
     fun `when it needs to show movie details, it should show it`() {
-        val movie = Movie(0, "title0", "overview0", "http://localhost/post_path0.jpg")
+        val movie = TestUtil.createMovie(0)
         movieLiveData.postValue(movie)
         showScreenLiveData.postValue(Pair(MainScreen.DETAILS, 0))
         onView(withId(R.id.movieTitleTextView)).check(matches(withText(movie.title)))

@@ -23,14 +23,14 @@ open class BaseViewModel(private val uiDispatcher: CoroutineDispatcher) : ViewMo
     private val serverErrorLiveData = SingleLiveEvent<ServerException>()
     private val networkErrorLiveData = SingleLiveEvent<NetworkException>()
 
-    fun handleRepositoryError(e: Exception) =
-        when (e) {
+    fun handleRepositoryError(t: Throwable) =
+        when (t) {
             // E.g. No Internet.
             is UnknownHostException, is TimeoutException -> networkErrorLiveData.postValue(
-                NetworkException(e.message)
+                NetworkException(t.message)
             )
-            is ServerException -> serverErrorLiveData.postValue(e)
-            else -> serverErrorLiveData.postValue(ServerException(e.message))
+            is ServerException -> serverErrorLiveData.postValue(t)
+            else -> serverErrorLiveData.postValue(ServerException(t.message))
         }
 
     override fun onCleared() {

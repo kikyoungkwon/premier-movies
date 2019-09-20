@@ -8,8 +8,9 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.kikyoung.movie.R
 import com.kikyoung.movie.base.BaseKoinTest
-import com.kikyoung.movie.feature.list.model.Movie
+import com.kikyoung.movie.data.model.Movie
 import com.kikyoung.movie.test.util.withRecyclerView
+import com.kikyoung.movie.util.TestUtil
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Before
@@ -35,7 +36,7 @@ class MovieListFragmentTest : BaseKoinTest() {
 
     @Test
     fun `when movie list is provided, it should show them`() {
-        val movieList = movieList()
+        val movieList = TestUtil.createMovies(3)
         movieListLiveData.postValue(movieList)
         onView(withId(R.id.movieListRecyclerView)).check(matches(isDisplayed()))
         // TODO Test the poster image view with Bitmap sameAs method.
@@ -43,12 +44,6 @@ class MovieListFragmentTest : BaseKoinTest() {
         testRecyclerViewItem(1, movieList[1])
         testRecyclerViewItem(2, movieList[2])
     }
-
-    private fun movieList() = listOf(
-        Movie(0, "title0", "overview0", "http://localhost/post_path0.jpg"),
-        Movie(1, "title1", "overview1", "http://localhost/post_path1.jpg"),
-        Movie(2, "title2", "overview2", "http://localhost/post_path2.jpg")
-    )
 
     private fun testRecyclerViewItem(itemIndex: Int, movie: Movie) {
         onView(withRecyclerView(R.id.movieListRecyclerView).atPositionOnView(itemIndex, R.id.itemTitleTextView))

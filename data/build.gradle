@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -12,11 +13,19 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    // For Robolectric
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            all {
+                maxHeapSize = "1024m"
+            }
         }
     }
 }
@@ -28,6 +37,11 @@ dependencies {
     implementation libs.androidx_lifecycle_viewmodel
     implementation libs.androidx_lifecycle_extensions
     implementation libs.androidx_core_ktx
+
+    // Local storage
+    api libs.room_runtime
+    kapt libs.room_compiler
+    implementation libs.room_ktx
 
     // Coroutines
     implementation libs.coroutines_core

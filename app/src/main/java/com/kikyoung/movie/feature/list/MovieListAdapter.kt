@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kikyoung.movie.R
-import com.kikyoung.movie.feature.list.model.Movie
+import com.kikyoung.movie.data.model.Movie
 import kotlinx.android.synthetic.main.item_movie.view.*
 import java.util.concurrent.locks.ReentrantLock
 

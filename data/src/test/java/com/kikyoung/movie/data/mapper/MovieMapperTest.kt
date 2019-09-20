@@ -1,8 +1,8 @@
 package com.kikyoung.movie.data.mapper
 
+import com.kikyoung.movie.data.model.Movie
 import com.kikyoung.movie.data.model.MovieResponse
-import com.kikyoung.movie.data.model.TopRatedResponse
-import com.kikyoung.movie.feature.list.model.Movie
+import com.kikyoung.movie.data.util.TestUtil
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -16,7 +16,7 @@ class MovieMapperTest {
 
     @Test
     fun `when mapping movies response to list, it should map correctly`() {
-        val moviesResponse = moviesResponse()
+        val moviesResponse = TestUtil.createMoviesResponse(3)
         val movieList = mapper.toMovieList(moviesResponse)
         assertMovie(moviesResponse.movies[0], movieList[0])
         assertMovie(moviesResponse.movies[1], movieList[1])
@@ -29,12 +29,4 @@ class MovieMapperTest {
         assertEquals(movieResponse.overview, movie.overview)
         assertEquals("${IMAGE_BASE_URL}${movieResponse.posterFilePath}", movie.posterUrl)
     }
-
-    private fun moviesResponse() = TopRatedResponse(
-        listOf(
-            MovieResponse(0, "title0", "overview0", "porterFilePath0.jpg"),
-            MovieResponse(1, "title1", "overview1", "porterFilePath1.jpg"),
-            MovieResponse(2, "title2", "overview2", "porterFilePath2.jpg")
-        )
-    )
 }

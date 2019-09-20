@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kikyoung.movie.R
 import com.kikyoung.movie.base.BaseFragment
-import com.kikyoung.movie.feature.list.model.Movie
+import com.kikyoung.movie.data.model.Movie
 import com.kikyoung.movie.util.extension.observeChanges
 import com.kikyoung.movie.util.extension.show
 import kotlinx.android.synthetic.main.fragment_movie_list.*

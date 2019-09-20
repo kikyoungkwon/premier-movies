@@ -10,8 +10,9 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.kikyoung.movie.R
 import com.kikyoung.movie.base.BaseKoinTest
+import com.kikyoung.movie.data.model.Movie
 import com.kikyoung.movie.feature.list.MovieViewModel
-import com.kikyoung.movie.feature.list.model.Movie
+import com.kikyoung.movie.util.TestUtil
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Test
@@ -33,7 +34,7 @@ class MovieDetailsFragmentTest : BaseKoinTest() {
         declare { viewModel(override = true) { movieViewModel } }
         val args = Bundle().apply { putInt("id", 0) }
         launchFragmentInContainer<MovieDetailsFragment>(args)
-        val movie = Movie(0, "title0", "overview0", "http://localhost/post_path0.jpg")
+        val movie = TestUtil.createMovie(0)
         movieLiveData.postValue(movie)
         onView(withId(R.id.movieTitleTextView)).check(matches(withText(movie.title)))
         onView(withId(R.id.movieOverviewTextView)).check(matches(withText(movie.overview)))

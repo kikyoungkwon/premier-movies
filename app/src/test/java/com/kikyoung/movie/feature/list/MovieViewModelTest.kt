@@ -4,11 +4,12 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.kikyoung.movie.data.exception.NetworkException
 import com.kikyoung.movie.data.exception.ServerException
+import com.kikyoung.movie.data.model.Movie
 import com.kikyoung.movie.data.repository.MovieRepository
-import com.kikyoung.movie.feature.list.model.Movie
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
@@ -28,7 +29,7 @@ class MovieViewModelTest {
     @Test
     fun `when getting a movie list is successful, it should provide it`() = runBlocking {
         val movieList = mockk<List<Movie>>()
-        coEvery { movieRepository.getMovieList() } returns movieList
+        coEvery { movieRepository.getMovieList() } returns flowOf(movieList)
         val observer = mockk<Observer<List<Movie>>>(relaxed = true)
         viewModel.movieListLiveData().observeForever(observer)
         viewModel.getMovieList()
@@ -37,7 +38,7 @@ class MovieViewModelTest {
 
     @Test
     fun `when getting a movie list, it should show and hide the loading bar`() = runBlocking {
-        coEvery { movieRepository.getMovieList() } returns mockk()
+        coEvery { movieRepository.getMovieList() } returns flowOf(mockk())
         val observer = mockk<Observer<Boolean>>(relaxed = true)
         viewModel.loadingLiveData().observeForever(observer)
         viewModel.getMovieList()

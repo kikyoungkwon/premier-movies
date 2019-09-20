@@ -3,11 +3,13 @@ package com.kikyoung.movie.feature.list
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kikyoung.movie.base.BaseViewModel
+import com.kikyoung.movie.data.model.Movie
 import com.kikyoung.movie.data.repository.MovieRepository
 import com.kikyoung.movie.feature.MainScreen
-import com.kikyoung.movie.feature.list.model.Movie
 import com.kikyoung.movie.util.SingleLiveEvent
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class MovieViewModel(
@@ -21,15 +23,15 @@ class MovieViewModel(
     private val movieLiveData = MutableLiveData<Movie?>()
 
     fun getMovieList() {
-        launch {
-            try {
-                loadingLiveData.postValue(true)
-                movieListLiveData.postValue(movieRepository.getMovieList())
-            } catch (e: Exception) {
-                handleRepositoryError(e)
-            } finally {
+        try {
+            loadingLiveData.postValue(true)
+            movieRepository.getMovieList().onEach {
+                movieListLiveData.postValue(it)
                 loadingLiveData.postValue(false)
-            }
+            }.launchIn(this)
+        } catch (t: Throwable) {
+            handleRepositoryError(t)
+            loadingLiveData.postValue(false)
         }
     }
 

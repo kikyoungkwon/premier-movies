@@ -8,8 +8,8 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.kikyoung.movie.R
 import com.kikyoung.movie.base.BaseFragment
+import com.kikyoung.movie.data.model.Movie
 import com.kikyoung.movie.feature.list.MovieViewModel
-import com.kikyoung.movie.feature.list.model.Movie
 import com.kikyoung.movie.util.extension.observeChanges
 import kotlinx.android.synthetic.main.fragment_movie_details.*
 import kotlinx.android.synthetic.main.view_movie_details.*

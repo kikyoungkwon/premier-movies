@@ -1,7 +1,7 @@
 package com.kikyoung.movie.data.mapper
 
+import com.kikyoung.movie.data.model.Movie
 import com.kikyoung.movie.data.model.TopRatedResponse
-import com.kikyoung.movie.feature.list.model.Movie
 
 class MovieMapper(private val imageBaseUrl: String) {
 

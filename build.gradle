@@ -23,6 +23,7 @@ buildscript {
             androidx_core_ktx : "1.0.2",
             androidx_fragment_testing : "1.1.0-alpha07",
             androidx_uiautomator : "2.2.0",
+            room : "2.1.0",
             coroutines : "1.3.0",
             retrofit2 : "2.6.0",
             okhttp3 : "4.0.0",
@@ -31,7 +32,7 @@ buildscript {
             timber : "4.7.1",
             leakcanary : "2.0-alpha-2",
             junit : "4.12",
-            robolectric : "4.3-alpha-2",
+            robolectric : "4.3-beta-1",
             arch_core_testing : "1.1.1",
             mockwebserver : "4.0.0",
             kotlin_test_junit : "1.3.21",
@@ -46,6 +47,11 @@ buildscript {
             androidx_navigation_fragment : "androidx.navigation:navigation-fragment-ktx:${versions.androidx_nav}",
             androidx_navigation_ui : "androidx.navigation:navigation-ui-ktx:${versions.androidx_nav}",
             androidx_constraintlayout : "androidx.constraintlayout:constraintlayout:${versions.androidx_constraintlayout}",
+
+            // Local storage
+            room_runtime : "androidx.room:room-runtime:${versions.room}",
+            room_compiler :  "androidx.room:room-compiler:${versions.room}",
+            room_ktx :  "androidx.room:room-ktx:${versions.room}",
 
             // Image Handling
             glide : "com.github.bumptech.glide:glide:${versions.glide}",
